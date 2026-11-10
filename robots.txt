@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://haya-studio.github.io/tool-discovery-hub/sitemap.xml

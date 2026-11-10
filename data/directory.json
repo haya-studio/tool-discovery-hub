@@ -1,0 +1,165 @@
+{
+  "categories": [
+    {
+      "id": "anki",
+      "name": "Anki & flashcards",
+      "description": "Create, improve, and understand your flashcards."
+    },
+    {
+      "id": "language",
+      "name": "Language learning",
+      "description": "Learn from the words and videos around you."
+    },
+    {
+      "id": "productivity",
+      "name": "Everyday productivity",
+      "description": "Make room for better workflows. More tools welcome."
+    }
+  ],
+  "tools": [
+    {
+      "id": "ankieditor",
+      "name": "ankieditor",
+      "category": "anki",
+      "summary": "Visually adjust Anki card templates without writing HTML or CSS.",
+      "url": "https://ankieditor.net/",
+      "pricing": "unknown",
+      "signup": "unknown",
+      "features": [
+        "Visual font, color, and layout controls",
+        "Front and back template editing",
+        "Copy generated templates into Anki"
+      ],
+      "limits": [
+        "Requires copying templates to and from Anki.",
+        "Pricing and account requirements have not been independently confirmed."
+      ],
+      "problems": [
+        "style-cards"
+      ]
+    },
+    {
+      "id": "yomitan",
+      "name": "Yomitan",
+      "category": "language",
+      "summary": "Look up words while reading and connect vocabulary to Anki.",
+      "url": "https://yomitan.wiki/",
+      "pricing": "free",
+      "signup": "unknown",
+      "features": [
+        "Popup dictionary lookups",
+        "Audio support",
+        "Anki integration"
+      ],
+      "limits": [
+        "Browser extension setup and dictionaries are required.",
+        "Anki integration needs additional configuration; see the official guide."
+      ],
+      "problems": [
+        "reading-vocabulary"
+      ]
+    },
+    {
+      "id": "asbplayer",
+      "name": "asbplayer",
+      "category": "language",
+      "summary": "Use subtitles and video to make multimedia vocabulary flashcards.",
+      "url": "https://docs.asbplayer.dev/",
+      "pricing": "free",
+      "signup": "unknown",
+      "features": [
+        "Text-selectable subtitles",
+        "Anki cards with image and audio",
+        "Web app for local video and extension for streaming"
+      ],
+      "limits": [
+        "Subtitle availability and streaming-site compatibility vary.",
+        "Some workflows require an extension and Anki setup."
+      ],
+      "problems": [
+        "video-flashcards"
+      ]
+    },
+    {
+      "id": "ankidecks-tools",
+      "name": "AnkiDecks study tools",
+      "category": "anki",
+      "summary": "Convert study material into Anki decks or export decks to other formats.",
+      "url": "https://ankidecks.ai/tools",
+      "pricing": "free",
+      "signup": "no",
+      "features": [
+        "Spreadsheet and flashcard converters",
+        "Cloze creation utility",
+        "Anki deck export utilities"
+      ],
+      "limits": [
+        "This listing covers the free tools collection, not every AnkiDecks product.",
+        "Supported formats depend on the individual utility."
+      ],
+      "problems": [
+        "convert-decks"
+      ]
+    },
+    {
+      "id": "neurako-tools",
+      "name": "Neurako Tools",
+      "category": "anki",
+      "summary": "Explore browser-based deck analytics and study utilities.",
+      "url": "https://tools.neurako.com/",
+      "pricing": "free",
+      "signup": "no",
+      "features": [
+        "Anki deck dashboard",
+        "CSV and Anki converters",
+        "Study timer"
+      ],
+      "limits": [
+        "This listing covers the tools collection, not the separate Neurako app.",
+        "The deck enhancer requires your own LLM key; external provider costs may apply."
+      ],
+      "problems": [
+        "understand-decks",
+        "convert-decks"
+      ]
+    }
+  ],
+  "problems": [
+    {
+      "id": "style-cards",
+      "title": "My Anki cards are hard to read",
+      "category": "anki",
+      "description": "Change card typography, colors, and layout without hand-editing every line of a template."
+    },
+    {
+      "id": "reading-vocabulary",
+      "title": "I keep interrupting my reading to look up words",
+      "category": "language",
+      "description": "Find definitions in context and move useful vocabulary into a spaced repetition workflow."
+    },
+    {
+      "id": "video-flashcards",
+      "title": "I want flashcards from the videos I watch",
+      "category": "language",
+      "description": "Bring subtitle text, images, and audio into vocabulary cards instead of assembling each part manually."
+    },
+    {
+      "id": "convert-decks",
+      "title": "My study material is in the wrong format",
+      "category": "anki",
+      "description": "Move existing spreadsheets or flashcards into or out of Anki with less repetitive copying."
+    },
+    {
+      "id": "understand-decks",
+      "title": "I do not understand how my Anki deck is performing",
+      "category": "anki",
+      "description": "Explore review history and deck statistics to understand your study material."
+    },
+    {
+      "id": "choose-workflow",
+      "title": "I need a simpler way to choose a personal workflow",
+      "category": "productivity",
+      "description": "Find a lightweight way to compare recurring tasks and decide which steps to automate first. This is an editorial research prompt, not a user submission."
+    }
+  ]
+}
