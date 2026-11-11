@@ -50,3 +50,10 @@ Source text is HTML escaped and outgoing tool/form URLs allow HTTPS only. Search
 - The pre-existing `haya-tool-template-v1.zip` archive is retained locally and ignored by Git. It is not used by the site or build; do not upload it in a Pages artifact.
 
 Open `index.html` locally or use any static HTTP server for preview. Browsing needs no fetch calls.
+
+## Connected submission forms
+
+- Submit Your Tool: https://forms.gle/x6vDCQwPXNwbWRnN9
+- Submit a Problem: https://forms.gle/GoViUrtw7d8HHGfZ8
+
+These configured links appear on the contribution page and in every page's footer. Existing navigation and editorial contribution links still lead to `submit.html`. Submissions are free and reviewed manually; no response is imported into the directory automatically. No Google login integration or API key is used by this site. Confirm in a signed-out/private browser that both Google Forms accept responses with the desired access settings before publication; that setting is controlled by Google Forms, not this repository.

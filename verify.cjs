@@ -37,8 +37,27 @@ for (const file of htmlFiles) {
 const contact = fs.readFileSync(path.join(root,'contact.html'),'utf8');
 if (!settings.window.SITE_CONFIG.email) assert.doesNotMatch(contact,/mailto:/);
 const submission = fs.readFileSync(path.join(root,'submit.html'),'utf8');
-if (!settings.window.SITE_CONFIG.toolFormUrl) assert.doesNotMatch(submission,/Open tool submission form/);
-if (!settings.window.SITE_CONFIG.problemFormUrl) assert.doesNotMatch(submission,/Open problem submission form/);
+assert.equal(settings.window.SITE_CONFIG.toolFormUrl,'https://forms.gle/x6vDCQwPXNwbWRnN9');
+assert.equal(settings.window.SITE_CONFIG.problemFormUrl,'https://forms.gle/GoViUrtw7d8HHGfZ8');
+for (const file of htmlFiles) {
+ const html = fs.readFileSync(path.join(root,file),'utf8');
+ for (const [key,label] of [['toolFormUrl','Submit Your Tool'],['problemFormUrl','Submit a Problem']]) {
+  const matches = [...html.matchAll(/<a\b([^>]*)>([^<]+)<\/a>/g)].filter(match=>match[2].startsWith(label));
+  assert.ok(matches.length>0, file+': missing '+label);
+  for (const match of matches) {
+   assert.ok(match[1].includes('href="'+settings.window.SITE_CONFIG[key]+'"'),file+': wrong form URL');
+   assert.ok(match[1].includes('target="_blank"'));
+   assert.ok(match[1].includes('rel="noopener noreferrer"'));
+  }
+ }
+ assert.match(html,/href="submit.html"/);
+}
+assert.match(submission,/Submissions are reviewed manually/);
+assert.match(submission,/There is no automatic publication/);
+assert.doesNotMatch(submission,/submissions are not open yet/i);
+
+if (!settings.window.SITE_CONFIG.toolFormUrl) assert.doesNotMatch(submission,/Submit Your Tool/);
+if (!settings.window.SITE_CONFIG.problemFormUrl) assert.doesNotMatch(submission,/Submit a Problem/);
 for(const kind of ['categories','tools','problems']) {
  assert.equal(new Set(data[kind].map(x=>x.id)).size,data[kind].length);
  for(const item of data[kind]) assert.match(item.id,/^[a-z0-9-]+$/);
@@ -61,10 +80,10 @@ const config={siteName:'Test <Brand>',siteUrl:'https://owner.github.io/repo/',em
 let out=generated(config);
 assert.match(out['index.html'],/rel="canonical" href="https:\/\/owner.github.io\/repo\/"/);
 assert.match(out['sitemap.xml'],/https:\/\/owner.github.io\/repo\/tool-yomitan.html/);
-assert.doesNotMatch(out['submit.html'],/Open tool submission form/);
+assert.doesNotMatch(out['submit.html'],/Submit Your Tool/);
 assert.match(out['index.html'],/Test &lt;Brand&gt;/);
 out=generated({...config,toolFormUrl:'https://docs.google.com/forms/d/e/test/viewform',problemFormUrl:'javascript:alert(1)'});
-assert.match(out['submit.html'],/Open tool submission form/);
+assert.match(out['submit.html'],/Submit Your Tool/);
 assert.doesNotMatch(out['submit.html'],/href="javascript:/);
 const malicious=JSON.parse(JSON.stringify(data));malicious.tools[0].name='<img src=x onerror=alert(1)>';malicious.tools[0].url='javascript:alert(1)';
 out=generated(config,malicious);
