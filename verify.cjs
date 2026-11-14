@@ -6,6 +6,12 @@ const root = __dirname;
 const data = JSON.parse(fs.readFileSync(path.join(root,'data/directory.json'),'utf8'));
 const htmlFiles = fs.readdirSync(root).filter(f=>f.endsWith('.html'));
 assert.equal(htmlFiles.length,19);
+const beacon = "<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{\"token\": \"62584ea64d3f46d29af159ab5254a6a1\"}'></script>";
+function verifyAnalytics(html, file) {
+ assert.equal((html.match(/static\.cloudflareinsights\.com\/beacon\.min\.js/g)||[]).length,1,file+': exactly one analytics script');
+ assert.equal((html.match(/data-cf-beacon/g)||[]).length,1,file+': exactly one beacon configuration');
+ assert.ok(html.includes(beacon+'</head>'),file+': configured module beacon immediately before closing head');
+}
 const productionBase = 'https://haya-studio.github.io/tool-discovery-hub/';
 const settings = {window:{}};
 vm.runInNewContext(fs.readFileSync(path.join(root,'config.js'),'utf8'), settings);
@@ -19,6 +25,7 @@ assert.equal(fs.readFileSync(path.join(root,'robots.txt'),'utf8'),
 assert.ok(fs.existsSync(path.join(root,'.nojekyll')));
 for (const file of htmlFiles) {
  const html=fs.readFileSync(path.join(root,file),'utf8');
+ verifyAnalytics(html,file);
  const expectedUrl = new URL(file==='index.html'?'./':file,productionBase).href;
  assert.equal(html.match(/<link rel="canonical" href="([^"]+)"/)[1],expectedUrl);
  assert.equal(html.match(/<meta property="og:url" content="([^"]+)"/)[1],expectedUrl);
@@ -78,6 +85,7 @@ function generated(config,dataOverride=data) {
 }
 const config={siteName:'Test <Brand>',siteUrl:'https://owner.github.io/repo/',email:'',toolFormUrl:'',problemFormUrl:''};
 let out=generated(config);
+for (const [file,html] of Object.entries(out)) if (file.endsWith('.html')) verifyAnalytics(html,file);
 assert.match(out['index.html'],/rel="canonical" href="https:\/\/owner.github.io\/repo\/"/);
 assert.match(out['sitemap.xml'],/https:\/\/owner.github.io\/repo\/tool-yomitan.html/);
 assert.doesNotMatch(out['submit.html'],/Submit Your Tool/);
@@ -107,4 +115,4 @@ result=filters('?category=invalid');assert.equal(result.cards.filter(c=>!c.hidde
 result=filters('?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E');assert.equal(result.cards.filter(c=>!c.hidden).length,0);
 result=filters('?q=unknown');result.fields.q.value='';result.events.input();assert.equal(result.cards.filter(c=>!c.hidden).length,5);
 assert.match(result.location.result,/^\/repo\/tools.html$/);
-console.log('PASS: 19 pages, internal assets/links, production canonical/OGP/sitemap/robots URLs, data relationships, hidden forms/email, XSS escaping, and search/filter/empty states.');
+console.log('PASS: 19 pages with one configured Cloudflare beacon immediately before </head>, internal assets/links, production canonical/OGP/sitemap/robots URLs, data relationships, hidden forms/email, XSS escaping, and search/filter/empty states.');

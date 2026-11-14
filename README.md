@@ -1,6 +1,6 @@
 ﻿# Tool Discovery Hub
 
-Free, independent, English-language tool directory. Plain HTML/CSS/JavaScript with no runtime dependencies, API, backend, payments, analytics, or advertising.
+Free, independent, English-language tool directory. Plain HTML/CSS/JavaScript with no runtime dependencies, API, backend, payments, or advertising. Cloudflare Web Analytics provides traffic and performance measurement.
 
 ## GitHub Pages layout
 
@@ -38,7 +38,7 @@ Edit `data/directory.json`, then rebuild and verify. Categories use unique IDs. 
 
 Problems have a unique ID, title, category, and description. Tools' `problems` arrays establish the relationships. Problems with no matching tools are marked open. Detail HTML is generated at build time and remains readable without JavaScript. JavaScript enables live search and filtering. When intentionally retiring a record, also remove its old generated detail page; the builder does not delete pages.
 
-Source text is HTML escaped and outgoing tool/form URLs allow HTTPS only. Search input is never inserted as HTML. Published pages do not evaluate code or load remote scripts/fonts. The Node builder executes trusted local configuration in a VM; do not run untrusted configuration files.
+Source text is HTML escaped and outgoing tool/form URLs allow HTTPS only. Search input is never inserted as HTML. Published pages load the Cloudflare Web Analytics script; no remote fonts or dynamic code evaluation are added. The Node builder executes trusted local configuration in a VM; do not run untrusted configuration files.
 
 ## Before publication
 
@@ -49,7 +49,7 @@ Source text is HTML escaped and outgoing tool/form URLs allow HTTPS only. Search
 - Text OGP is supplied; there is no fabricated social sharing image. Add an absolute `og:image` URL if an appropriate image is prepared later.
 - The pre-existing `haya-tool-template-v1.zip` archive is retained locally and ignored by Git. It is not used by the site or build; do not upload it in a Pages artifact.
 
-Open `index.html` locally or use any static HTTP server for preview. Browsing needs no fetch calls.
+Open `index.html` locally or use any static HTTP server for preview. Directory browsing and filtering need no fetch calls; the analytics script sends measurements to Cloudflare.
 
 ## Connected submission forms
 
@@ -57,3 +57,7 @@ Open `index.html` locally or use any static HTTP server for preview. Browsing ne
 - Submit a Problem: https://forms.gle/GoViUrtw7d8HHGfZ8
 
 These configured links appear on the contribution page and in every page's footer. Existing navigation and editorial contribution links still lead to `submit.html`. Submissions are free and reviewed manually; no response is imported into the directory automatically. No Google login integration or API key is used by this site. Confirm in a signed-out/private browser that both Google Forms accept responses with the desired access settings before publication; that setting is controlled by Google Forms, not this repository.
+
+## Cloudflare Web Analytics
+
+The shared head in `build.cjs` adds the configured module beacon immediately before `</head>` on all 19 pages. The token is a public measurement identifier, not an API key. Rebuild after changes; do not add another loader in shared JavaScript or individual pages. `node verify.cjs` checks the script location, configuration, and absence of duplicates. The privacy policy describes the measurement and links to Cloudflare documentation.
